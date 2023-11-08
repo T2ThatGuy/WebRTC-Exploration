@@ -1,7 +1,12 @@
-import Test from '@/components/test';
+import Router from '@/Router';
+import Providers from '@/providers';
 
 function App() {
-    return <Test />;
+    return (
+        <Providers>
+            <Router />
+        </Providers>
+    );
 }
 
 export default App;
