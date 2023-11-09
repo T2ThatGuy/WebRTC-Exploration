@@ -15,7 +15,8 @@ const MODULE_RESOLVER = [
         root: ['.'],
         alias: {
             '@': './src',
-            // '@components': './src/components',
+            '@ui': './src/components/ui',
+            '@components': './src/components',
         },
     },
 ];
