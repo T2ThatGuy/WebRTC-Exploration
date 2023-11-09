@@ -1,10 +1,16 @@
-import { utilityStyle } from '@/styles';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
+
+import { style } from '@/styles';
+import { TestForm } from '@components/forms/Test';
 
 function Home() {
     return (
-        <SafeAreaView style={utilityStyle.fullHeight}>
-            <Text>Home Page</Text>
+        <SafeAreaView style={style.screen}>
+            {/* <Text style={{ color: COLOURS.PRIMARY }}>Home Page</Text> */}
+
+            <View style={style.exampleForm}>
+                <TestForm />
+            </View>
         </SafeAreaView>
     );
 }
