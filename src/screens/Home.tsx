@@ -1,11 +1,14 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
-import { style } from '@/styles';
+import { COLOURS, style } from '@/styles';
+import { useAculabCloud } from '@/providers/AculabCloud';
 
 function HomeScreen() {
+    const { webRTCToken } = useAculabCloud();
+
     return (
         <SafeAreaView style={style.screen}>
-            {/* <Text style={{ color: COLOURS.PRIMARY }}>Home Page</Text> */}
+            <Text style={{ color: COLOURS.PRIMARY }}>{webRTCToken}</Text>
         </SafeAreaView>
     );
 }
