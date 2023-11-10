@@ -21,7 +21,16 @@ const MODULE_RESOLVER = [
     },
 ];
 
+const DOTENV = [
+    'module:react-native-dotenv',
+    {
+        envName: 'APP_ENV',
+        moduleName: '@env',
+        path: '.env',
+    },
+];
+
 module.exports = {
-    plugins: [MODULE_RESOLVER],
+    plugins: [MODULE_RESOLVER, DOTENV],
     presets: ['module:metro-react-native-babel-preset'],
 };
