@@ -1,7 +1,15 @@
-import { Text } from 'react-native';
+import RegisterForm from '@/components/forms/Register';
+import { style } from '@/styles';
+import { View, SafeAreaView } from 'react-native';
 
-function Register() {
-    return <Text>Register Screen</Text>;
+function RegisterScreen() {
+    return (
+        <SafeAreaView style={style.screen}>
+            <View style={style.exampleForm}>
+                <RegisterForm />
+            </View>
+        </SafeAreaView>
+    );
 }
 
-export default Register;
+export default RegisterScreen;
