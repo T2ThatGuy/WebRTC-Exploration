@@ -12,8 +12,12 @@ const Button = forwardRef<
     TouchableOpacity,
     TouchableOpacityProps & { label?: string }
 >(({ style, children, label, ...props }, ref) => {
-    const Con = children ? children : <Text>{label || ''}</Text>;
     const styles = StyleSheet.compose(componentStyle.button, style);
+    const Con = children ? (
+        children
+    ) : (
+        <Text style={componentStyle.buttonText}>{label || ''}</Text>
+    );
 
     return (
         <TouchableOpacity ref={ref} style={styles} {...props}>

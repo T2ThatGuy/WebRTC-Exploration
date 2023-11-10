@@ -98,7 +98,6 @@ const FormDescription = forwardRef<Text, TextProps>(
         const { formDescriptionId } = useFormField();
         const styles = StyleSheet.compose(formStyle.description, style);
 
-        /* TODO: Add default styling for small text and muted colour */
         return (
             <Text ref={ref} id={formDescriptionId} style={styles} {...props} />
         );
@@ -111,9 +110,16 @@ const FormMessage = forwardRef<Text, TextProps>(
         const { error, formMessageId } = useFormField();
         const body = error ? String(error.message) : children;
 
+        const styles = StyleSheet.compose(
+            StyleSheet.compose(
+                formStyle.errorLabel,
+                error ? utilityStyle.destructiveText : undefined,
+            ),
+            style,
+        );
+
         return (
-            /* TODO: Add default styling for small text, red colour and medium/bold font */
-            <Text ref={ref} id={formMessageId} style={style} {...props}>
+            <Text ref={ref} id={formMessageId} style={styles} {...props}>
                 {body}
             </Text>
         );

@@ -24,8 +24,14 @@ export const utilityStyle = StyleSheet.create({
 export const componentStyle = StyleSheet.create({
     button: {
         padding: 10,
+        elevation: 8,
+        width: 'auto',
         borderRadius: 10,
         backgroundColor: 'white',
+    },
+    buttonText: {
+        alignSelf: 'center',
+        color: COLOURS.BACKGROUND,
     },
 } as const);
 
@@ -55,5 +61,10 @@ export const formStyle = StyleSheet.create({
         paddingHorizontal: 10,
         color: COLOURS.PRIMARY,
         borderColor: COLOURS.INPUT_BORDER,
+    },
+    errorLabel: {
+        fontSize: 14,
+        lineHeight: 20,
+        fontWeight: 'bold',
     },
 } as const);
