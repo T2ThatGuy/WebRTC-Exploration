@@ -4,9 +4,9 @@ import {
 } from '@react-navigation/native-stack';
 
 import { COLOURS } from '@/styles';
-import { HomeScreen, RegisterScreen } from '@/screens';
+import { HomeScreen, RegisterScreen, ScreenProps } from '@/screens';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<ScreenProps>();
 const HeaderStyling: NativeStackNavigationOptions = {
     headerTintColor: 'white',
     headerTitleAlign: 'center',

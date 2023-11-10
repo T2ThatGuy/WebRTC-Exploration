@@ -6,6 +6,9 @@ import { Input } from '@ui/Input';
 import { Button } from '@ui/Button';
 import { Form, FormField, FormItem, FormLabel } from '@ui/Form';
 import { DEFAULT_CREDENTIALS } from '@/constants';
+import { useAculabCloud } from '@providers/AculabCloud';
+import { useNavigation } from '@react-navigation/native';
+import { HomeNavigationProps } from '@/screens';
 
 const formSchema = z.object({
     webRTCAccessKey: z.string().min(1),
@@ -18,12 +21,17 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 function RegisterForm() {
+    const { register } = useAculabCloud();
+    const navigation = useNavigation<HomeNavigationProps>();
     const form = useForm<FormSchemaType>({
         mode: 'onChange',
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => console.log(data);
+    const onSubmit = async (data: FormSchemaType) => {
+        await register(data);
+        navigation.navigate('Home');
+    };
 
     return (
         <Form {...form}>
