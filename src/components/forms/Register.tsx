@@ -9,6 +9,8 @@ import { DEFAULT_CREDENTIALS } from '@/constants';
 import { useAculabCloud } from '@providers/AculabCloud';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationProps } from '@/screens';
+import { useState } from 'react';
+import { View } from 'react-native';
 
 const formSchema = z.object({
     webRTCAccessKey: z.string().min(1),
@@ -28,6 +30,7 @@ function RegisterForm() {
         resolver: zodResolver(formSchema),
     });
 
+    const [hideValues, setHideValues] = useState(true);
     const onSubmit = async (data: FormSchemaType) => {
         await register(data);
         navigation.navigate('Home');
@@ -46,8 +49,9 @@ function RegisterForm() {
                         <FormItem>
                             <FormLabel>Api Access Key</FormLabel>
                             <Input
-                                placeholder="Access Key"
                                 onChangeText={onChange}
+                                placeholder="Access Key"
+                                secureTextEntry={hideValues}
                                 {...props}
                             />
                         </FormItem>
@@ -65,8 +69,9 @@ function RegisterForm() {
                         <FormItem>
                             <FormLabel>Web RTC Access Key</FormLabel>
                             <Input
-                                placeholder="Web RTC Access Key"
                                 onChangeText={onChange}
+                                secureTextEntry={hideValues}
+                                placeholder="Web RTC Access Key"
                                 {...props}
                             />
                         </FormItem>
@@ -149,7 +154,21 @@ function RegisterForm() {
                     );
                 }}
             />
-            <Button onPress={form.handleSubmit(onSubmit)} label="Register" />
+            <View
+                style={{
+                    gap: 8,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                }}>
+                <Button
+                    onPress={form.handleSubmit(onSubmit)}
+                    label="Register"
+                />
+                <Button
+                    label="Toggle Field Visibility"
+                    onPress={() => setHideValues((prev) => !prev)}
+                />
+            </View>
         </Form>
     );
 }
