@@ -15,6 +15,7 @@ const AculabCloudContext = createContext(
     {} as {
         client: null;
         webRTCToken: string;
+        unregister: () => void;
         register: (options: RegisterOptions) => Promise<void>;
     },
 );
@@ -73,9 +74,16 @@ function AculabCloudProvider({ children }: { children: ReactNode }) {
         [],
     );
 
+    const unregister = useCallback(() => {
+        setClient(null);
+        setWebRTCToken('');
+
+        AculabBaseClass.unregister();
+    }, []);
+
     const values = useMemo(
-        () => ({ client, webRTCToken, register }),
-        [client, webRTCToken, register],
+        () => ({ client, webRTCToken, register, unregister }),
+        [client, webRTCToken, register, unregister],
     );
 
     return (
