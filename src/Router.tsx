@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/native-stack';
 
 import { COLOURS } from '@/styles';
+import HeaderBackButton from '@ui/HeaderButton';
 import { HomeScreen, RegisterScreen, ScreenProps } from '@/screens';
 
 const Stack = createNativeStackNavigator<ScreenProps>();
@@ -26,7 +27,11 @@ function Router() {
             <Stack.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ title: 'Home Screen', ...HeaderStyling }}
+                options={{
+                    title: 'Home Screen',
+                    headerLeft: HeaderBackButton,
+                    ...HeaderStyling,
+                }}
             />
         </Stack.Navigator>
     );
