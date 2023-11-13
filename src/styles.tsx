@@ -10,6 +10,7 @@ export const COLOURS = {
     INPUT_BORDER: 'hsl(214.3 31.8% 91.4%)',
     PRIMARY: 'hsl(240, 1%, 76%)',
     SECONDARY: 'hsl(240, 3%, 51%)',
+    WHITE: 'white',
 } as const;
 
 export const utilityStyle = StyleSheet.create({
@@ -28,6 +29,11 @@ export const componentStyle = StyleSheet.create({
         width: 'auto',
         borderRadius: 10,
         backgroundColor: 'white',
+    },
+    headerBackButton: {
+        padding: 0,
+        elevation: 0,
+        backgroundColor: undefined,
     },
     buttonText: {
         alignSelf: 'center',
