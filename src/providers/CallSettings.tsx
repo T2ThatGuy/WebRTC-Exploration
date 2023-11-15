@@ -38,7 +38,7 @@ type WebRTCState =
     | 'connected'
     | 'incomingCall';
 
-type CallType = 'client' | 'service';
+export type CallType = 'client' | 'service';
 
 function CallSettingsProvider({ children }: { children: ReactNode }) {
     const [callId, setCallId] = useState('');

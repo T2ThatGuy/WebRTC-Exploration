@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel } from '@ui/Form';
 import { DEFAULT_CREDENTIALS } from '@/constants';
 import { useAculabCloud } from '@providers/AculabCloud';
 import { useNavigation } from '@react-navigation/native';
-import { HomeNavigationProps } from '@/screens';
+import { CallNavigationProps } from '@/screens';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -24,7 +24,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 
 function RegisterForm() {
     const { register } = useAculabCloud();
-    const navigation = useNavigation<HomeNavigationProps>();
+    const navigation = useNavigation<CallNavigationProps>();
     const form = useForm<FormSchemaType>({
         mode: 'onChange',
         resolver: zodResolver(formSchema),
@@ -33,7 +33,7 @@ function RegisterForm() {
     const [hideValues, setHideValues] = useState(true);
     const onSubmit = async (data: FormSchemaType) => {
         await register(data);
-        navigation.navigate('Home');
+        navigation.navigate('Call');
     };
 
     return (

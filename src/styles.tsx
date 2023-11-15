@@ -46,7 +46,7 @@ export const style = StyleSheet.create({
         backgroundColor: COLOURS.BACKGROUND,
         ...utilityStyle.fullHeight,
     },
-    exampleForm: {
+    formPage: {
         marginHorizontal: 20,
     },
 } as const);

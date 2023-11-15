@@ -5,7 +5,7 @@ import { View, SafeAreaView } from 'react-native';
 function RegisterScreen() {
     return (
         <SafeAreaView style={style.screen}>
-            <View style={style.exampleForm}>
+            <View style={style.formPage}>
                 <RegisterForm />
             </View>
         </SafeAreaView>

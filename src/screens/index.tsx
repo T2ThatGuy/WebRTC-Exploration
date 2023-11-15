@@ -1,16 +1,16 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export { default as HomeScreen } from '@/screens/Home';
+export { default as CallScreen } from '@/screens/Call';
 export { default as RegisterScreen } from '@/screens/Register';
 
 export type ScreenProps = {
-    Home: undefined;
+    Call: undefined;
     Register: undefined;
 };
 
-export type HomeNavigationProps = NativeStackNavigationProp<
+export type CallNavigationProps = NativeStackNavigationProp<
     ScreenProps,
-    'Home'
+    'Call'
 >;
 export type RegisterNavigationProps = NativeStackNavigationProp<
     ScreenProps,

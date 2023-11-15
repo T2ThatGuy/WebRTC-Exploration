@@ -5,7 +5,7 @@ import {
 
 import { COLOURS } from '@/styles';
 import HeaderBackButton from '@ui/HeaderButton';
-import { HomeScreen, RegisterScreen, ScreenProps } from '@/screens';
+import { CallScreen, RegisterScreen, ScreenProps } from '@/screens';
 
 const Stack = createNativeStackNavigator<ScreenProps>();
 const HeaderStyling: NativeStackNavigationOptions = {
@@ -25,10 +25,10 @@ function Router() {
                 options={{ title: 'Register Screen', ...HeaderStyling }}
             />
             <Stack.Screen
-                name="Home"
-                component={HomeScreen}
+                name="Call"
+                component={CallScreen}
                 options={{
-                    title: 'Home Screen',
+                    title: 'Call Screen',
                     headerLeft: HeaderBackButton,
                     ...HeaderStyling,
                 }}
