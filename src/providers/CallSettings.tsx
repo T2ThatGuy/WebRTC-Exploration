@@ -1,3 +1,4 @@
+import { MediaStream } from 'react-native-webrtc';
 import { useNavigation } from '@react-navigation/native';
 import { AculabBaseClass } from '@aculab-com/react-native-aculab-client';
 import {
@@ -11,7 +12,8 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { MediaStream } from 'react-native-webrtc';
+
+import { CallNavigationProps } from '@/screens';
 
 const CallSettingsContext = createContext(
     {} as {
@@ -57,7 +59,7 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
     const [localVideoMuted, setLocalVideoMuted] = useState(false);
     const [remoteVideoMuted, setRemoteVideoMuted] = useState(false);
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<CallNavigationProps>();
 
     const makeCall = useCallback(async (type: CallType, id: string) => {
         const callFunc =
@@ -108,7 +110,7 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             setActiveCall(obj.call);
             setWebRTCState('incomingCall');
 
-            navigation.navigate('Call', { screen: 'Incomming' });
+            navigation.navigate('Call', { screen: 'Incoming' });
         };
 
         AculabBaseClass.onLocalVideoMute = () => {
