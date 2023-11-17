@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { AculabBaseClass } from '@aculab-com/react-native-aculab-client';
 import {
     Dispatch,
@@ -56,6 +57,8 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
     const [localVideoMuted, setLocalVideoMuted] = useState(false);
     const [remoteVideoMuted, setRemoteVideoMuted] = useState(false);
 
+    const navigation = useNavigation();
+
     const makeCall = useCallback(async (type: CallType, id: string) => {
         const callFunc =
             type === 'client'
@@ -77,10 +80,14 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             setActiveCall(undefined);
             setLocalStream(undefined);
             setRemoteStream(undefined);
+
+            navigation.navigate('Call', { screen: 'MakeCall' });
         };
 
         AculabBaseClass.onRinging = () => {
             setWebRTCState('ringing');
+
+            navigation.navigate('Call', { screen: 'Calling' });
         };
 
         AculabBaseClass.onGotMedia = () => {
@@ -91,6 +98,8 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             setWebRTCState('connected');
             setRemoteStream(obj.call._remote_stream);
             setLocalStream(AculabBaseClass.getLocalStream(activeCall));
+
+            navigation.navigate('Call', { screen: 'Connected' });
         };
 
         AculabBaseClass.onIncomingCall = (obj) => {
@@ -98,6 +107,8 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             setCallType('client');
             setActiveCall(obj.call);
             setWebRTCState('incomingCall');
+
+            navigation.navigate('Call', { screen: 'Incomming' });
         };
 
         AculabBaseClass.onLocalVideoMute = () => {
@@ -115,7 +126,7 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
         AculabBaseClass.onRemoteVideoUnmute = () => {
             setRemoteVideoMuted(false);
         };
-    }, [activeCall]);
+    }, [activeCall, navigation]);
 
     const values = useMemo(
         () => ({
