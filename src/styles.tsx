@@ -49,6 +49,10 @@ export const style = StyleSheet.create({
     formPage: {
         marginHorizontal: 20,
     },
+    center: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 } as const);
 
 export const formStyle = StyleSheet.create({
