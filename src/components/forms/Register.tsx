@@ -10,7 +10,7 @@ import { useAculabCloud } from '@providers/AculabCloud';
 import { useNavigation } from '@react-navigation/native';
 import { CallNavigationProps } from '@/screens';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const formSchema = z.object({
     webRTCAccessKey: z.string().min(1),
@@ -35,7 +35,7 @@ function RegisterForm() {
         const res = await register(data);
 
         if (res) {
-            navigation.navigate('Call');
+            navigation.navigate('Call', { screen: 'MakeCall' });
         }
     };
 
@@ -157,12 +157,7 @@ function RegisterForm() {
                     );
                 }}
             />
-            <View
-                style={{
-                    gap: 8,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                }}>
+            <View style={registerFormStyle.buttonRow}>
                 <Button
                     onPress={form.handleSubmit(onSubmit)}
                     label="Register"
@@ -177,3 +172,11 @@ function RegisterForm() {
 }
 
 export default RegisterForm;
+
+const registerFormStyle = StyleSheet.create({
+    buttonRow: {
+        gap: 8,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+} as const);
