@@ -68,6 +68,7 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
                 : AculabBaseClass.callService;
 
         setCallId(id);
+        setCallType(type);
         setIsOutbound(true);
         setActiveCall(await callFunc(id));
     }, []);
