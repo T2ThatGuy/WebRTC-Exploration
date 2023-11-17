@@ -3,12 +3,13 @@ import { Text, View } from 'react-native';
 
 import { Input } from '@ui/Input';
 import { Button } from '@ui/Button';
-import { formStyle, style } from '@/styles';
+import { COLOURS, formStyle, style } from '@/styles';
 import { SelectDropdown } from '@ui/SelectDropdown';
 import { CallType, useCallSettings } from '@providers/CallSettings';
 
 function MakeCall() {
-    const { makeCall } = useCallSettings();
+    const { makeCall, webRTCState, callType, isOutbound, callId } =
+        useCallSettings();
 
     const [clientId, setClientId] = useState('');
     const [targetCallType, setTargetCallType] = useState<CallType>('client');
@@ -16,6 +17,11 @@ function MakeCall() {
 
     return (
         <View style={style.formPage}>
+            <Text style={{ color: COLOURS.PRIMARY }}>{webRTCState}</Text>
+            <Text style={{ color: COLOURS.PRIMARY }}>{String(callType)}</Text>
+            <Text style={{ color: COLOURS.PRIMARY }}>{String(isOutbound)}</Text>
+            <Text style={{ color: COLOURS.PRIMARY }}>{String(callId)}</Text>
+
             <View style={formStyle.item}>
                 <Text style={formStyle.label}>Call Type</Text>
                 <SelectDropdown
