@@ -32,8 +32,11 @@ function RegisterForm() {
 
     const [hideValues, setHideValues] = useState(true);
     const onSubmit = async (data: FormSchemaType) => {
-        await register(data);
-        navigation.navigate('Call');
+        const res = await register(data);
+
+        if (res) {
+            navigation.navigate('Call');
+        }
     };
 
     return (

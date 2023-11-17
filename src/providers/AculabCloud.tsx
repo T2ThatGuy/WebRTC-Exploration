@@ -16,7 +16,7 @@ const AculabCloudContext = createContext(
         client: null;
         webRTCToken: string;
         unregister: () => void;
-        register: (options: RegisterOptions) => Promise<void>;
+        register: (options: RegisterOptions) => Promise<boolean>;
     },
 );
 
@@ -53,7 +53,7 @@ function AculabCloudProvider({ children }: { children: ReactNode }) {
             });
 
             if (!newWebRTCToken) {
-                return;
+                return false;
             }
 
             setWebRTCToken(newWebRTCToken);
@@ -69,7 +69,11 @@ function AculabCloudProvider({ children }: { children: ReactNode }) {
             if (newClient) {
                 AculabBaseClass._client = newClient;
                 setClient(newClient);
+
+                return true;
             }
+
+            return false;
         },
         [],
     );
