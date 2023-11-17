@@ -1,10 +1,14 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { style } from '@/styles';
+import { COLOURS, style } from '@/styles';
 import MakeCall from '@components/forms/MakeCall';
-import CallSettingsProvider from '@providers/CallSettings';
+import CallSettingsProvider, { useCallSettings } from '@providers/CallSettings';
 
-function CallScreen() {
+// Call Navigation Stack
+const CallNavigationStack = createNativeStackNavigator();
+
+function CallForm() {
     return (
         <SafeAreaView style={style.screen}>
             <MakeCall />
@@ -12,10 +16,48 @@ function CallScreen() {
     );
 }
 
+function Calling() {
+    const { callId } = useCallSettings();
+
+    return (
+        <SafeAreaView style={style.screen}>
+            <Text style={{ color: COLOURS.PRIMARY }}>Calling {callId}</Text>
+        </SafeAreaView>
+    );
+}
+
+function Connected() {
+    const { callId } = useCallSettings();
+
+    return (
+        <SafeAreaView style={style.screen}>
+            <Text style={{ color: COLOURS.PRIMARY }}>
+                Connected with {callId}
+            </Text>
+        </SafeAreaView>
+    );
+}
+
 function WrappedCallScreen() {
     return (
         <CallSettingsProvider>
-            <CallScreen />
+            <CallNavigationStack.Navigator>
+                <CallNavigationStack.Screen
+                    name="MakeCall"
+                    component={CallForm}
+                    options={{ headerShown: false, animation: 'none' }}
+                />
+                <CallNavigationStack.Screen
+                    name="Calling"
+                    component={Calling}
+                    options={{ headerShown: false, animation: 'none' }}
+                />
+                <CallNavigationStack.Screen
+                    name="Connected"
+                    component={Connected}
+                    options={{ headerShown: false, animation: 'none' }}
+                />
+            </CallNavigationStack.Navigator>
         </CallSettingsProvider>
     );
 }
