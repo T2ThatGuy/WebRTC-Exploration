@@ -1,3 +1,4 @@
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 
 export const COLOURS = {
@@ -78,3 +79,11 @@ export const formStyle = StyleSheet.create({
         fontWeight: 'bold',
     },
 } as const);
+
+export const HeaderStyling: NativeStackNavigationOptions = {
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+        backgroundColor: COLOURS.BACKGROUND,
+    },
+} as const;

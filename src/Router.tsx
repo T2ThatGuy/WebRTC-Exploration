@@ -1,20 +1,9 @@
-import {
-    createNativeStackNavigator,
-    NativeStackNavigationOptions,
-} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { COLOURS } from '@/styles';
-import HeaderBackButton from '@ui/HeaderButton';
+import { HeaderStyling } from '@/styles';
 import { CallScreen, RegisterScreen, ScreenProps } from '@/screens';
 
 const Stack = createNativeStackNavigator<ScreenProps>();
-const HeaderStyling: NativeStackNavigationOptions = {
-    headerTintColor: 'white',
-    headerTitleAlign: 'center',
-    headerStyle: {
-        backgroundColor: COLOURS.BACKGROUND,
-    },
-};
 
 function Router() {
     return (
@@ -28,9 +17,7 @@ function Router() {
                 name="Call"
                 component={CallScreen}
                 options={{
-                    title: 'Call Screen',
-                    headerLeft: HeaderBackButton,
-                    ...HeaderStyling,
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>

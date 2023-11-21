@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { HeaderStyling } from '@/styles';
 import CallSettingsProvider from '@/providers/CallSettings';
+import { HeaderUnregisterButton } from '@/components/ui/HeaderButton';
 
 import FormScreen from './Form';
 import CallingScreen from './Calling';
@@ -23,7 +25,12 @@ function CallScreenRouter() {
                 <CallNavigationStack.Screen
                     name="MakeCall"
                     component={FormScreen}
-                    options={{ headerShown: false, animation: 'none' }}
+                    options={{
+                        title: 'Call Screen',
+                        animation: 'none',
+                        headerLeft: HeaderUnregisterButton,
+                        ...HeaderStyling,
+                    }}
                 />
                 <CallNavigationStack.Screen
                     name="Calling"

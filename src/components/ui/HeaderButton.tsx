@@ -6,6 +6,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { Button, ButtonProps } from '@ui/Button';
 import { COLOURS, componentStyle } from '@/styles';
 import { useAculabCloud } from '@providers/AculabCloud';
+import { CallNavigationProps } from '@/screens';
 
 const HeaderButton = forwardRef<
     TouchableOpacity,
@@ -38,4 +39,18 @@ const HeaderBackButton = () => {
     );
 };
 
-export default HeaderBackButton;
+const HeaderUnregisterButton = () => {
+    const navigation = useNavigation<CallNavigationProps>();
+    const { unregister } = useAculabCloud();
+
+    return (
+        <HeaderButton
+            onPress={() => {
+                unregister();
+                navigation.navigate('Register');
+            }}
+        />
+    );
+};
+
+export { HeaderBackButton, HeaderUnregisterButton };
