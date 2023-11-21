@@ -1,13 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 import { RTCView } from 'react-native-webrtc';
 
-import { COLOURS } from '@/styles';
 import { useCallSettings } from '@providers/CallSettings';
 
 function LocalStream() {
-    const { localStream, remoteVideoMuted } = useCallSettings();
+    const { localStream, remoteVideoMuted, localVideoMuted } =
+        useCallSettings();
 
-    if (!localStream) {
+    if (!localStream || localVideoMuted) {
         return null;
     }
 
@@ -36,16 +36,14 @@ const style = StyleSheet.create({
     topRight: {
         height: 105,
         width: '16%',
-        backgroundColor: COLOURS.BACKGROUND,
         position: 'absolute',
-        top: 0,
+        top: 10,
         right: 10,
         zIndex: 9,
     },
     localView: {
         height: '100%',
         width: '100%',
-        backgroundColor: COLOURS.BACKGROUND,
         zIndex: 10,
     },
 } as const);

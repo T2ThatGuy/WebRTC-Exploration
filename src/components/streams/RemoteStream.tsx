@@ -4,9 +4,9 @@ import { RTCView } from 'react-native-webrtc';
 import { useCallSettings } from '@providers/CallSettings';
 
 function RemoteStream() {
-    const { remoteStream } = useCallSettings();
+    const { remoteStream, remoteVideoMuted } = useCallSettings();
 
-    if (!remoteStream) {
+    if (!remoteStream || remoteVideoMuted) {
         return null;
     }
 
