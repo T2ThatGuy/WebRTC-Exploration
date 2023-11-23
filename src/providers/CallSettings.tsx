@@ -1,10 +1,11 @@
 import { MediaStream } from 'react-native-webrtc';
 import { useNavigation } from '@react-navigation/native';
-import { AculabBaseClass } from '@aculab-com/react-native-aculab-client';
 import {
-    Dispatch,
+    AculabBaseClass,
+    turnOnSpeaker,
+} from '@aculab-com/react-native-aculab-client';
+import {
     ReactNode,
-    SetStateAction,
     createContext,
     useCallback,
     useContext,
@@ -26,11 +27,13 @@ const CallSettingsContext = createContext(
         webRTCState: WebRTCState;
         activeCall?: unknown;
         localMicMuted: boolean;
+        speakerEnabled: boolean;
         localVideoMuted: boolean;
         remoteVideoMuted: boolean;
+        toggleMic: () => void;
+        toggleCamera: () => void;
+        toggleSpeaker: () => void;
         makeCall: (type: CallType, id: string) => Promise<void>;
-        setLocalMicMuted: Dispatch<SetStateAction<boolean>>;
-        setLocalVideoMuted: Dispatch<SetStateAction<boolean>>;
     },
 );
 
@@ -55,6 +58,7 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
     // TODO: Add types when react-native-aculab-client gets updated
     const [activeCall, setActiveCall] = useState();
 
+    const [speakerEnabled, setSpeakerEnabled] = useState(false);
     const [localMicMuted, setLocalMicMuted] = useState(false);
     const [localVideoMuted, setLocalVideoMuted] = useState(false);
     const [remoteVideoMuted, setRemoteVideoMuted] = useState(false);
@@ -73,6 +77,25 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
         setActiveCall(await callFunc(id));
     }, []);
 
+    const toggleMic = useCallback(() => {
+        AculabBaseClass._mic = !AculabBaseClass._mic;
+        setLocalMicMuted(AculabBaseClass._mic);
+        AculabBaseClass.mute(activeCall);
+    }, [activeCall]);
+
+    const toggleCamera = useCallback(() => {
+        AculabBaseClass._camera = !AculabBaseClass._camera;
+        setLocalVideoMuted(AculabBaseClass._camera);
+        AculabBaseClass.mute(activeCall);
+    }, [activeCall]);
+
+    const toggleSpeaker = useCallback(() => {
+        const enableSpeaker = !speakerEnabled;
+
+        turnOnSpeaker(enableSpeaker);
+        setSpeakerEnabled(enableSpeaker);
+    }, [speakerEnabled]);
+
     // Register On Events for AculabBaseClass
     useEffect(() => {
         AculabBaseClass.onDisconnected = () => {
@@ -83,6 +106,10 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             setActiveCall(undefined);
             setLocalStream(undefined);
             setRemoteStream(undefined);
+
+            setLocalMicMuted(false);
+            setLocalVideoMuted(false);
+            setRemoteVideoMuted(false);
 
             navigation.navigate('Call', { screen: 'MakeCall' });
         };
@@ -115,18 +142,22 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
         };
 
         AculabBaseClass.onLocalVideoMute = () => {
+            console.log('Local Video Muted');
             setLocalVideoMuted(true);
         };
 
         AculabBaseClass.onLocalVideoUnmute = () => {
+            console.log('Local Video Unmuted');
             setLocalVideoMuted(false);
         };
 
         AculabBaseClass.onRemoteVideoMute = () => {
+            console.log('Remote Video Muted');
             setRemoteVideoMuted(true);
         };
 
         AculabBaseClass.onRemoteVideoUnmute = () => {
+            console.log('Remote Video Unmuted');
             setRemoteVideoMuted(false);
         };
     }, [activeCall, navigation]);
@@ -142,11 +173,13 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             webRTCState,
             activeCall,
             localMicMuted,
+            speakerEnabled,
             localVideoMuted,
             remoteVideoMuted,
             makeCall,
-            setLocalMicMuted,
-            setLocalVideoMuted,
+            toggleMic,
+            toggleCamera,
+            toggleSpeaker,
         }),
         [
             callId,
@@ -158,11 +191,13 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             webRTCState,
             activeCall,
             localMicMuted,
+            speakerEnabled,
             localVideoMuted,
             remoteVideoMuted,
             makeCall,
-            setLocalMicMuted,
-            setLocalVideoMuted,
+            toggleMic,
+            toggleCamera,
+            toggleSpeaker,
         ],
     );
 
