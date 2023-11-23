@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { AculabBaseClass } from '@aculab-com/react-native-aculab-client';
 
-import { COLOURS } from '@/styles';
 import { Button } from '@ui/Button';
+import { COLOURS, buttonStyle as style } from '@/styles';
 import { useCallSettings } from '@providers/CallSettings';
 
 function DefaultButtons() {
@@ -22,7 +22,6 @@ function DefaultButtons() {
                     size={30}
                 />
             </Button>
-
             <Button
                 style={[style.button, { backgroundColor: COLOURS.DANGER }]}
                 onPress={() => AculabBaseClass.stopCall(activeCall)}>
@@ -36,7 +35,6 @@ function DefaultButtons() {
             <Button
                 style={[style.button, { backgroundColor: COLOURS.WHITE }]}
                 onPress={() => {
-                    // setSpeakerEnabled((prev) => !prev);
                     toggleSpeaker();
                 }}>
                 <MaterialIcon
@@ -95,23 +93,3 @@ function CallButtons() {
 }
 
 export default CallButtons;
-
-const style = StyleSheet.create({
-    bottom: {
-        position: 'absolute',
-        bottom: 10,
-        alignSelf: 'center',
-        zIndex: 10,
-        flexDirection: 'row',
-        gap: 10,
-    },
-    button: {
-        borderRadius: 100,
-        width: 50,
-        height: 50,
-        elevation: 8,
-    },
-    icon: {
-        alignSelf: 'center',
-    },
-} as const);

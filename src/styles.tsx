@@ -42,6 +42,26 @@ export const componentStyle = StyleSheet.create({
     },
 } as const);
 
+export const buttonStyle = StyleSheet.create({
+    bottom: {
+        position: 'absolute',
+        bottom: 10,
+        alignSelf: 'center',
+        zIndex: 10,
+        flexDirection: 'row',
+        gap: 10,
+    },
+    button: {
+        borderRadius: 100,
+        width: 50,
+        height: 50,
+        elevation: 8,
+    },
+    icon: {
+        alignSelf: 'center',
+    },
+} as const);
+
 export const style = StyleSheet.create({
     screen: {
         backgroundColor: COLOURS.BACKGROUND,
