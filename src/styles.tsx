@@ -74,6 +74,11 @@ export const style = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    callingText: {
+        fontSize: 25,
+        marginVertical: 20,
+        color: COLOURS.PRIMARY,
+    },
 } as const);
 
 export const formStyle = StyleSheet.create({
