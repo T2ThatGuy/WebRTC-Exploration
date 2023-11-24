@@ -12,7 +12,7 @@
     "react-devtools": "react-devtools"
   },
   "dependencies": {
-    "@aculab-com/react-native-aculab-client": "^1.4.1-beta",
+    "@aculab-com/react-native-aculab-client": "^1.5.2-beta",
     "@hookform/resolvers": "^3.3.2",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",

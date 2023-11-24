@@ -68,7 +68,12 @@ function ClientButtons() {
             <Button
                 style={[style.button, { backgroundColor: COLOURS.WHITE }]}
                 onPress={() => {
-                    AculabBaseClass.swapCam(localVideoMuted, activeCall);
+                    AculabBaseClass.swapCam(
+                        localVideoMuted,
+                        activeCall as Parameters<
+                            typeof AculabBaseClass.swapCam
+                        >[1],
+                    );
                     setIsFrontCam((prev) => !prev);
                 }}>
                 <MaterialIcon

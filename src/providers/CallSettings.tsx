@@ -1,4 +1,3 @@
-import { MediaStream } from 'react-native-webrtc';
 import { useNavigation } from '@react-navigation/native';
 import {
     AculabBaseClass,
@@ -15,27 +14,30 @@ import {
 } from 'react';
 
 import { CallNavigationProps } from '@/screens';
+import { MediaStream } from 'react-native-webrtc';
+import { Call } from '@aculab-com/react-native-aculab-client/lib/typescript/types';
+import { WithRequired } from '@/utility';
 
-const CallSettingsContext = createContext(
-    {} as {
-        callId: string;
-        isInbound: boolean;
-        isOutbound: boolean;
-        callType?: CallType;
-        localStream?: MediaStream;
-        remoteStream?: MediaStream;
-        webRTCState: WebRTCState;
-        activeCall?: unknown;
-        localMicMuted: boolean;
-        speakerEnabled: boolean;
-        localVideoMuted: boolean;
-        remoteVideoMuted: boolean;
-        toggleMic: () => void;
-        toggleCamera: () => void;
-        toggleSpeaker: () => void;
-        makeCall: (type: CallType, id: string) => Promise<void>;
-    },
-);
+type CallSettingsContextType = {
+    callId: string;
+    isInbound: boolean;
+    isOutbound: boolean;
+    callType?: CallType;
+    localStream: MediaStream | null;
+    remoteStream: MediaStream | null;
+    webRTCState: WebRTCState;
+    activeCall?: Call;
+    localMicMuted: boolean;
+    speakerEnabled: boolean;
+    localVideoMuted: boolean;
+    remoteVideoMuted: boolean;
+    toggleMic: () => void;
+    toggleCamera: () => void;
+    toggleSpeaker: () => void;
+    makeCall: (type: CallType, id: string) => Promise<void>;
+};
+
+const CallSettingsContext = createContext({} as CallSettingsContextType);
 
 type WebRTCState =
     | 'idle'
@@ -51,12 +53,12 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
     const [isInbound, setIsInbound] = useState(false);
     const [isOutbound, setIsOutbound] = useState(false);
     const [callType, setCallType] = useState<CallType>();
-    const [localStream, setLocalStream] = useState<MediaStream>();
-    const [remoteStream, setRemoteStream] = useState<MediaStream>();
     const [webRTCState, setWebRTCState] = useState<WebRTCState>('idle');
+    const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+    const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
     // TODO: Add types when react-native-aculab-client gets updated
-    const [activeCall, setActiveCall] = useState();
+    const [activeCall, setActiveCall] = useState<Call>();
 
     const [speakerEnabled, setSpeakerEnabled] = useState(false);
     const [localMicMuted, setLocalMicMuted] = useState(false);
@@ -74,16 +76,24 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
         setCallId(id);
         setCallType(type);
         setIsOutbound(true);
-        setActiveCall(await callFunc(id));
+        setActiveCall(callFunc(id));
     }, []);
 
     const toggleMic = useCallback(() => {
+        if (!activeCall) {
+            return;
+        }
+
         AculabBaseClass._mic = !AculabBaseClass._mic;
         setLocalMicMuted(AculabBaseClass._mic);
         AculabBaseClass.mute(activeCall);
     }, [activeCall]);
 
     const toggleCamera = useCallback(() => {
+        if (!activeCall) {
+            return;
+        }
+
         AculabBaseClass._camera = !AculabBaseClass._camera;
         setLocalVideoMuted(AculabBaseClass._camera);
         AculabBaseClass.mute(activeCall);
@@ -101,11 +111,11 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
         AculabBaseClass.onDisconnected = () => {
             setIsInbound(false);
             setIsOutbound(false);
+            setLocalStream(null);
+            setRemoteStream(null);
             setCallType(undefined);
             setWebRTCState('idle');
             setActiveCall(undefined);
-            setLocalStream(undefined);
-            setRemoteStream(undefined);
 
             setLocalMicMuted(false);
             setLocalVideoMuted(false);
@@ -120,14 +130,24 @@ function CallSettingsProvider({ children }: { children: ReactNode }) {
             navigation.navigate('Call', { screen: 'Calling' });
         };
 
-        AculabBaseClass.onGotMedia = () => {
+        AculabBaseClass.onGotMedia = (obj) => {
             setWebRTCState('gotMedia');
+            setRemoteStream(obj.stream);
         };
 
-        AculabBaseClass.onConnected = (obj) => {
+        AculabBaseClass.onConnected = async () => {
+            if (!activeCall) {
+                return;
+            }
+
             setWebRTCState('connected');
-            setRemoteStream(obj.call._remote_stream);
-            setLocalStream(AculabBaseClass.getLocalStream(activeCall));
+            setLocalStream(
+                await AculabBaseClass.getLocalStream(
+                    activeCall as Parameters<
+                        typeof AculabBaseClass.getLocalStream
+                    >[0],
+                ),
+            );
 
             navigation.navigate('Call', { screen: 'Connected' });
         };
@@ -217,5 +237,5 @@ export const useCallSettings = () => {
         );
     }
 
-    return context;
+    return context as WithRequired<CallSettingsContextType, 'activeCall'>;
 };
