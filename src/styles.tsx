@@ -2,7 +2,6 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 
 export const COLOURS = {
-    // BACKGROUND: '#37383D',
     BACKGROUND: 'hsl(240, 10%, 4%)',
     DANGER: 'hsl(0 100% 50%)',
     MUTED: 'hsl(240, 4%, 56%)',
@@ -12,6 +11,7 @@ export const COLOURS = {
     PRIMARY: 'hsl(240, 1%, 76%)',
     SECONDARY: 'hsl(240, 3%, 51%)',
     WHITE: 'white',
+    GREEN: 'green',
 } as const;
 
 export const utilityStyle = StyleSheet.create({
